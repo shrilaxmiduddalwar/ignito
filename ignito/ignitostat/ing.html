@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Ignito Corporation - Empowering Business with Digital Solutions. Home to the Smart LPG Distribution App."/>
+  <title>Ignito Corporation</title>
+  
+  <!-- Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    /* CSS Variables - Premium Palette */
+    :root {
+      --bg-dark: #000000;
+      --bg-surface: rgba(255, 255, 255, 0.02);
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --bg-card-hover: rgba(255, 255, 255, 0.06);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      
+      --text-primary: #f5f5f7;
+      --text-secondary: #a1a1a6;
+      --text-accent: #f59e0b; /* Amber/Gold accent */
+      --text-accent-hover: #fbbf24;
+      
+      --accent-glow: rgba(245, 158, 11, 0.15);
+      
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --transition-fast: all 0.2s ease;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Glow Effects */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 15% 50%, rgba(245, 158, 11, 0.08), transparent 25%),
+                  radial-gradient(circle at 85% 30%, rgba(147, 51, 234, 0.08), transparent 25%);
+      z-index: -2;
+      pointer-events: none;
+    }
+    
+    .bg-glow {
+      position: absolute;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(100px);
+      pointer-events: none;
+      animation: floatGlow 15s ease-in-out infinite alternate;
+    }
+    
+    .bg-glow.top-left { top: -20%; left: -10%; }
+    .bg-glow.bottom-right { bottom: -20%; right: -10%; background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 60%); }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(5%, 5%) scale(1.1); }
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #a1a1a6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition-fast);
+      cursor: pointer;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg-dark);
+      border: 1px solid var(--text-primary);
+    }
+    
+    .btn-primary:hover {
+      background: var(--text-secondary);
+      border-color: var(--text-secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Layout & Containers */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 8rem 0;
+      position: relative;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      transition: opacity 0.2s;
+    }
+    
+    .nav-logo:hover {
+      opacity: 0.8;
+    }
+
+    .nav-logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding-top: 14rem;
+      padding-bottom: 10rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-weight: 500;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+    
+    .hero-badge .pulse {
+      width: 8px;
+      height: 8px;
+      background-color: var(--text-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--text-accent);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.5rem;
+      line-height: 1.05;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2vw, 1.35rem);
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* About Section */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text {
+      max-width: 600px;
+    }
+
+    .about-visual {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(16px);
+    }
+    
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+    
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .feature-item {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      padding: 1rem;
+      border-radius: 12px;
+      transition: var(--transition-fast);
+      border: 1px solid transparent;
+    }
+    
+    .feature-item:hover {
+      background: var(--bg-card);
+      border-color: var(--border-color);
+    }
+    
+    .feature-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--text-accent);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* Roadmap Section */
+    .section-header {
+      text-align: center;
+      margin-bottom: 5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255,255,255,0.04), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    
+    .card:hover::before {
+      opacity: 1;
+    }
+    
+    .card-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      width: fit-content;
+      border: 1px solid var(--border-color);
+    }
+    
+    .card h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-size: 1.35rem;
+    }
+
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 0;
+      flex-grow: 1;
+    }
+
+    /* Team Grid */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .team-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      backdrop-filter: blur(8px);
+    }
+
+    .team-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+
+    .team-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      margin: 0 auto 1.25rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .team-card h4 {
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .team-card p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+    
+    .contact-container::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 50%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .contact-info h2 {
+      margin-bottom: 1rem;
+    }
+
+    .contact-icons {
+      display: flex;
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+
+    .contact-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .contact-icons a:hover {
+      background: var(--text-primary);
+      color: var(--bg-dark);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .map-container {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      height: 400px;
+      position: relative;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(100%) invert(100%) contrast(90%) hue-rotate(180deg);
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    
+    .map-container:hover iframe {
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 0;
+      text-align: center;
+      background: rgba(0,0,0,0.5);
+    }
+
+    footer p {
+      font-size: 0.875rem;
+      margin-bottom: 0;
+      color: var(--text-secondary);
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: var(--transition-fast);
+    }
+    
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Scroll Animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered delays */
+    .delay-100 { transition-delay: 100ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-300 { transition-delay: 300ms; }
+    .delay-400 { transition-delay: 400ms; }
+    .delay-500 { transition-delay: 500ms; }
+
+    /* Media Queries */
+    @media (max-width: 992px) {
+      .about-grid, .contact-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .contact-container {
+        padding: 2.5rem;
+      }
+      h2 { font-size: clamp(2rem, 4vw, 2.5rem); }
+      section { padding: 6rem 0; }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: 10rem;
+        padding-bottom: 6rem;
+      }
+      .nav-links, .nav-actions {
+        display: none; /* simple mobile behavior */
+      }
+      .map-container {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Ambient Glow -->
+  <div class="bg-gradient"></div>
+  <div class="bg-glow top-left"></div>
+  <div class="bg-glow bottom-right"></div>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <img src="ignito.png" alt="Ignito Logo" />
+        Ignito
+      </a>
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-secondary" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Get in Touch</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero container fade-up">
+      <div class="hero-content">
+        <div class="hero-badge fade-up delay-100">
+          <span class="pulse"></span>
+          UDYAM-MP-37-0051379
+        </div>
+        <h1 class="hero-title text-gradient fade-up delay-200">Empowering Business with Digital Solutions</h1>
+        <p class="hero-subtitle fade-up delay-300">We build smart automation and accessible platforms to help local businesses grow and operate more efficiently.</p>
+        <div class="hero-cta fade-up delay-400">
+          <a href="#roadmap" class="btn btn-primary">View Roadmap</a>
+          <a href="#about" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container">
+      <div class="about-grid">
+        <div class="about-text fade-up">
+          <h2 class="text-gradient">About Ignito Corporation</h2>
+          <p>Established in <strong>2025</strong> as a sole proprietorship, Ignito is officially registered under the Indian MSME scheme.</p>
+          <p>Our flagship project — the <strong>Smart LPG Distribution App</strong> — is designed to simplify and automate the LPG delivery process by enabling digital record-keeping, tracking, and workforce management for distributors.</p>
+          <p>As a startup, our core focus is bringing digital solutions to real-world problems. We are committed to building tools that contribute to the broader goal of India's digital future.</p>
+        </div>
+        <div class="about-visual fade-up delay-200">
+          <h3 style="color: var(--text-primary); margin-bottom: 2rem; font-size: 1.5rem;">Core Focus</h3>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+              <div>
+                <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.25rem;">Smart Automation</strong>
+                <span style="color: var(--text-secondary); font-size: 0.95rem;">Streamlining complex workflows into simple, automated steps.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon"><i class="fas fa-desktop"></i></div>
+              <div>
+                <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.25rem;">Accessible Platforms</strong>
+                <span style="color: var(--text-secondary); font-size: 0.95rem;">Intuitive interfaces designed for users of all technical backgrounds.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+              <div>
+                <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.25rem;">Scalable Growth</strong>
+                <span style="color: var(--text-secondary); font-size: 0.95rem;">Building robust solutions that grow seamlessly with your business.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="container">
+      <div class="section-header fade-up">
+        <h2 class="text-gradient">Project Roadmap</h2>
+        <p>The journey of building the Smart LPG Distribution App from concept to deployment.</p>
+      </div>
+      <div class="roadmap-grid">
+        <div class="card fade-up delay-100">
+          <span class="card-badge">Phase 1</span>
+          <h3>Ideation & Research</h3>
+          <p>Understanding the LPG distribution system and identifying core gaps in current processes.</p>
+        </div>
+        <div class="card fade-up delay-200">
+          <span class="card-badge">Phase 2</span>
+          <h3>Design & Development</h3>
+          <p>Creating the Smart LPG Distribution App with intuitive role-based access controls.</p>
+        </div>
+        <div class="card fade-up delay-300">
+          <span class="card-badge">Phase 3</span>
+          <h3>Testing & Trials</h3>
+          <p>Running internal trials to ensure tracking accuracy and maximum operational efficiency.</p>
+        </div>
+        <div class="card fade-up delay-400">
+          <span class="card-badge">Phase 4</span>
+          <h3>Integration</h3>
+          <p>Seamless subscription management and monetization via secure Razorpay integration.</p>
+        </div>
+        <div class="card fade-up delay-500">
+          <span class="card-badge">Phase 5</span>
+          <h3>Market Expansion</h3>
+          <p>Enhancing with user feedback, scaling features, and expanding the internal team.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="container">
+      <div class="section-header fade-up">
+        <h2 class="text-gradient">Our Project & Team</h2>
+        <p>Built entirely in remote mode within just one month, our 8-member team worked collaboratively under expert mentorship to deliver a scalable solution for the LPG industry.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card fade-up delay-100">
+          <div class="team-avatar"><i class="fas fa-user-tie"></i></div>
+          <h4>Mrugen Fichadia</h4>
+          <p>Project Lead</p>
+        </div>
+        <div class="team-card fade-up delay-200">
+          <div class="team-avatar"><i class="fas fa-user-astronaut"></i></div>
+          <h4>Krishna Jaiswal</h4>
+          <p>Team Leader & Backend</p>
+        </div>
+        <div class="team-card fade-up delay-300">
+          <div class="team-avatar"><i class="fas fa-laptop-code"></i></div>
+          <h4>Irfan Khan</h4>
+          <p>Frontend Developer</p>
+        </div>
+        <div class="team-card fade-up delay-400">
+          <div class="team-avatar"><i class="fas fa-server"></i></div>
+          <h4>Varun T P</h4>
+          <p>Backend Developer</p>
+        </div>
+        <div class="team-card fade-up delay-500">
+          <div class="team-avatar"><i class="fas fa-code"></i></div>
+          <h4>Arya Pal</h4>
+          <p>Developer</p>
+        </div>
+        <div class="team-card fade-up delay-100">
+          <div class="team-avatar"><i class="fas fa-code"></i></div>
+          <h4>Shlok Shetiya</h4>
+          <p>Developer</p>
+        </div>
+        <div class="team-card fade-up delay-200">
+          <div class="team-avatar"><i class="fas fa-user-graduate"></i></div>
+          <h4>Kaushi Chauhan</h4>
+          <p>Intern</p>
+        </div>
+        <div class="team-card fade-up delay-300">
+          <div class="team-avatar"><i class="fas fa-user-graduate"></i></div>
+          <h4>Dipak Singh</h4>
+          <p>Intern</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container">
+      <div class="contact-container fade-up">
+        <div class="contact-info">
+          <h2 class="text-gradient">Get in Touch</h2>
+          <p>Reach out to us to learn more about our solutions, request a demo, or start a partnership.</p>
+          <div class="contact-icons">
+            <a href="https://wa.me/916232480899" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:support@ignitocorporation.in" title="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://x.com/Ignito485001" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+          </div>
+          <p style="margin-top: 2rem;">
+            <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem; color: var(--text-accent);"></i> 
+            <strong>Our Office</strong><br/>
+            <span style="font-size: 0.95rem;">Bhagirathpura, Indore, Madhya Pradesh</span>
+          </p>
+        </div>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7359.055946004716!2d75.85446499183443!3d22.745779567474788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396302826b4d4fb9%3A0xd77fbc01a65120d3!2sBhagirathpura%2C%20Indore%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1749893351999!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container fade-up">
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p>© 2025 Ignito Corporation. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Mouse glow effect for cards -->
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  </script>
+
+  <!-- Tawk.to Script -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/684d3d0e4aea20190b6351b0/1itmrd0ik';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-up').forEach(el => {
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>
